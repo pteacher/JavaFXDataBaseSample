@@ -98,11 +98,7 @@ public class Controller implements Initializable, Refreshable {
 
     @FXML
     public void updateTable(ActionEvent actionEvent) {
-        try {
-            table.getItems().setAll(Database.getAuthors());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        table.getItems().setAll(Database.init());
         table.refresh();
     }
 
@@ -110,11 +106,7 @@ public class Controller implements Initializable, Refreshable {
     public void deleteAuthor(ActionEvent actionEvent) {
         if (currentId != -1) {
             Database.deleteAuthor(currentId);
-            try {
-                table.getItems().setAll(Database.getAuthors());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            table.getItems().setAll(Database.init());
         }
 
     }

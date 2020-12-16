@@ -21,7 +21,6 @@ public class Database {
             }
             statement = connection.createStatement();
             ResultSet res = statement.executeQuery(SELECT_QUERY);
-
             while (res.next()) {
                 Authors a = new Authors();
                 a.setAuthorId(Integer.toString(res.getInt("authorID")));
@@ -35,19 +34,6 @@ public class Database {
         return authors;
     }
 
-    public static List<Authors> getAuthors() throws SQLException {
-        List<Authors> authors = new ArrayList<>();
-        Statement statement = connection.createStatement();
-        ResultSet res = statement.executeQuery(SELECT_QUERY);
-        while (res.next()) {
-            Authors a = new Authors();
-            a.setAuthorId(Integer.toString(res.getInt("authorID")));
-            a.setFirstName(res.getString("firstName"));
-            a.setLastName(res.getString("lastName"));
-            authors.add(a);
-        }
-        return authors;
-    }
 
     public static void addAuthor(Authors author) {
         try {
