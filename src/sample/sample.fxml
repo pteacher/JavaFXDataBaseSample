@@ -21,9 +21,9 @@
       </TableView>
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="600.0" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" text="Add" />
-            <Button fx:id="btnUpdate" mnemonicParsing="false" text="Update" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addAuthor" text="Add" />
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateTable" text="Update" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteAuthor" text="Delete" />
          </children>
       </HBox>
    </children>

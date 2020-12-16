@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.modal.New">
+   <children>
+      <Button fx:id="buttonAdd" layoutX="37.0" layoutY="323.0" mnemonicParsing="false" onAction="#addNewAuthor" text="Add new Author" />
+      <TextField fx:id="name" layoutX="37.0" layoutY="212.0" />
+      <TextField fx:id="lastname" layoutX="37.0" layoutY="268.0" />
+      <Label layoutX="37.0" layoutY="30.0" text="Enter name and surname">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

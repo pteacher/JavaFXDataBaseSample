@@ -1,31 +1,49 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.awt.event.ActionEvent;
+import javax.security.auth.RefreshFailedException;
+import javax.security.auth.Refreshable;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class Controller implements Initializable, Refreshable {
     @FXML private TableView<Authors> table;
     @FXML private TableColumn<Authors, String> authorID;
     @FXML private TableColumn<Authors, String> firstName;
     @FXML private TableColumn<Authors, String> lastName;
+    private int currentId = -1;
 
-    @FXML private Button btnAdd;
-    @FXML private Button btnUpdate;
-    @FXML private Button btnDelete;
+    @FXML
+    public void addAuthor(ActionEvent actionEvent){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/sample/modal/new.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,25 +93,56 @@ public class Controller implements Initializable {
                 };
 
         authorID.setCellFactory(cellFactory);
-
         table.getItems().setAll(Database.init());
     }
 
-//    @FXML
-//    public void addAuthor(ActionEvent actionEvent) {
-//
-//    }
+    @FXML
+    public void updateTable(ActionEvent actionEvent) {
+        try {
+            table.getItems().setAll(Database.getAuthors());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        table.refresh();
+    }
+
+    @FXML
+    public void deleteAuthor(ActionEvent actionEvent) {
+        if (currentId != -1) {
+            Database.deleteAuthor(currentId);
+            try {
+                table.getItems().setAll(Database.getAuthors());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+    }
+
 
     @FXML
     public void clickItem(MouseEvent event)
     {
-        if (event.getClickCount() == 1) //Checking double click
+        if (event.getClickCount() == 1)
         {
             System.out.println(table.getSelectionModel().getSelectedItem().getAuthorId());
-            System.out.println(table.getSelectionModel().getSelectedItem().getFirstName());
-            System.out.println(table.getSelectionModel().getSelectedItem().getLastName());
-
+            currentId = Integer.parseInt(table.getSelectionModel().getSelectedItem().getAuthorId());
         }
     }
 
+    @Override
+    public boolean isCurrent() {
+        try {
+            refresh();
+        } catch (RefreshFailedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public void refresh() throws RefreshFailedException {
+        table.getItems().setAll(Database.init());
+        table.refresh();
+    }
 }

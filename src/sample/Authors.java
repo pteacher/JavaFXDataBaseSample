@@ -1,7 +1,5 @@
 package sample;
 
-import java.lang.reflect.AnnotatedArrayType;
-
 public class Authors {
     private String authorId;
     private String firstName;
